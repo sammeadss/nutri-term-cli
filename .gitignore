@@ -1,0 +1,15 @@
+# Ignores the directory where Python writes byte-compiled cache files
+# Ignores compiled Python files ending in .pyc, .pyo, or .pyd 
+# Ignores shared-object (C extension) build artifacts on UNIX
+__pychache__/ 
+*.py[cod]
+*.so
+
+# Ignores local virtual environment folder (won't commit all installed packages)
+.venv/
+
+# Ignores folders created when running python setup.py bdist or similar packaging commands
+# Ignores metadata dirs created for package when installed in "editable" mode or build eggs
+build/
+dist/
+*.egg-info/
