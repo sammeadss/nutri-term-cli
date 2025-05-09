@@ -1,0 +1,21 @@
+[build-system] # Tells pip how to build package
+requires    = ["setuptools>=61.0", "wheel"] 
+build-backend = "setuptools.build_meta"
+
+[project] # Gives metadata (name, version, description, authors, etc.)
+name        = "nutri-term"
+version     = "0.1.0"
+description = "A CLI tool for tracking daily macros and calories"
+authors     = [
+  { name="Samuel Meads", email="meadss0115@gmail.com" }
+]
+dependencies = [] # 3rd-party libraries
+
+[project.scripts] # Creates a console script name nutri-term that points to main()
+nutri-term = "nutri_term.main:main"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]
