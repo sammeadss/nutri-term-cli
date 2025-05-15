@@ -1,0 +1,8 @@
+{
+  "name": "Sam",
+  "weight": 100.0,
+  "height": 178.0,
+  "age": 20,
+  "gender": "male",
+  "activity": "moderate"
+}

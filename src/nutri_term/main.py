@@ -6,25 +6,56 @@ from .calculator import (
         compute_maintenance,
         compute_goal_calories,
         )
+from .user_profile import save_profile, load_profile
+from .macros import macro_breakdown
 
 def cmd_profile(args):
-    print(f"[profile] name={args.name}, weight={args.weight}, height={args.height}, age={args.age}, gender={args.gender}, activity={args.activity}")
+    profile = {
+            "name": args.name,
+            "weight": args.weight,
+            "height": args.height,
+            "age": args.age,
+            "gender": args.gender,
+            "activity": args.activity_level,
+            }
+
+    save_profile(profile)
+    print("Profile save to", load_profile_file := str(save_profil.__defaults__[0]) if False else "")
+    print(profile)
             
 def cmd_calculate(args):
-    bmr = compute_bmr(
-            weight=args.weight,
-            height=args.height,
-            age=args.age,
-            gender=args.gender,
-            )
+    profile = load_profile()
+    if profile is None:
+        print("No profile found, please run the profile command first.")
+        return
 
-    maintenance = compute_maintenance(bmr, args.activity_level)
+    weight = profile["weight"]
+    height = profile["height"]
+    age = profile["age"]
+    gender = profile["gender"]
+    activity = profile["activity"]
+    goal = args.goal
 
-    target = compute_goal_calories(maintenance, args.goal)
+    bmr = compute_bmr(weight, height, age, gender)
+    maintenance = compute_maintenance(bmr, activity)
+    target = compute_goal_calories(maintenance, goal) 
 
     print(f"BMR (Mifflin-St Jeor):   {bmr:.0f} kcal/day")
     print(f"Maintenance calories:    {maintenance:.0f} kcal/day")
     print(f"Target calories ({args.goal}): {target:.0f}")
+
+    macros = macro_breakdown(
+            target,
+            profile["weight"],
+            protein_ratio = args.protein_ratio,
+            carb_ratio = args.carb_ratio,
+            fat_ratio = args.fat_ratio
+            )
+    print()
+    print(" Macro targets:")
+    print(f" Protein: {macros['protein_g']:.0f} g")
+    print(f" Carbohydrates: {macros['carbs_g']:.0f} g")
+    print(f" Fats: {macros['fats_g']:.0f} g")
 
 def cmd_log(args):
     print(f"[log] food={args.food}, amount={args.amount}")
@@ -53,13 +84,14 @@ def main():
             "calculate",
             help="Compute BMR, maintenance, and target calories"
             )
-       
-    p_calc.add_argument("--weight", type=float, required=True, help="Weight in kg")
-    p_calc.add_argument("--height", type=float, required=True, help="Height in cm")
-    p_calc.add_argument("--age", type=int, required=True, help="Aye in years")
-    p_calc.add_argument("--gender", choices=["male", "female"], required=True, help="Gender")
-    p_calc.add_argument("--activity_level", choices=["sedentary", "light", "moderate", "high", "very high"], required=True, help="Activity level")
+    
     p_calc.add_argument("--goal", choices=["maintenance", "lose", "gain"], default="maintenance", help="Nutrition goal")
+
+    p_calc.add_argument("--protein-ratio", type=float, default=1.0, help="Grams of protein per pound of bodyweight")
+
+    p_calc.add_argument("--carb-ratio", type=float, default=0.40, help="Fraction of remaining calories as carbohydrates")
+
+    p_calc.add_argument("--fat-ratio", type=float, default=0.30, help="Fraction of remaining calories as fats")
 
     p_calc.set_defaults(func=cmd_calculate)
      
