@@ -19,6 +19,6 @@ def compute_goal_calories(maintenance: float, goal: str) -> float:
     if goal == "lose":
         return maintenance * 0.85
     elif goal == "gain":
-        return maintenacne * 1.15
+        return maintenance * 1.15
     else:
         return maintenance
