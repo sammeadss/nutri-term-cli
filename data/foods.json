@@ -1,0 +1,6 @@
+{
+  "chicken breast": { "protein": 31, "carbs": 0, "fat": 3.6, "calories": 165 },
+  "rice":           { "protein": 2.7, "carbs": 28, "fat": 0.3, "calories": 130 },
+  "olive oil":      { "protein": 0, "carbs": 0, "fat": 14, "calories": 119 },
+  "egg":            { "protein": 6, "carbs": 0.6, "fat": 5, "calories": 68 }
+} 

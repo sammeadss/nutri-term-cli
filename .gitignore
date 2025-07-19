@@ -13,3 +13,13 @@ __pychache__/
 build/
 dist/
 *.egg-info/
+
+# Ignores user-specific data (personal information, logs, profiles)
+profile.json
+.nutri-term/
+logs/
+*.log
+
+# Ignores any temporary or local configuration files
+.env
+*.local
